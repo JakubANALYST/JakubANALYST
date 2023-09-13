@@ -1,0 +1,55 @@
+DECLARE @dbname VARCHAR(128)
+
+
+DECLARE db_cursor CURSOR
+FOR
+SELECT name
+FROM sys.databases       -- deklarujemy kursor
+WHERE database_id > 5
+
+OPEN db_cursor       
+
+FETCH NEXT
+FROM db_cursor
+INTO @dbname
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	DECLARE @wartosc NVARCHAR(MAX)
+
+	SET @wartosc = ' select Fir_Wartosc from [' + @dbname + '].cdn.firma Fir_FirID = 277  '
+
+	IF @wartosc = '3 '
+	BEGIN
+		DECLARE @sqlQuery NVARCHAR(MAX)
+
+		SET @sqlQuery = N'SELECT ''' + @dbname + ''' AS NazwaBazyDanych
+	,MONTH(NAG.VaN_DataWys) AS miesiac
+	,NAG.VaN_Rejestr
+	,NAG.VaN_Dokument
+	,DEKNAG.DeN_Dokument
+	,NAG.VaN_IdentKsieg
+	,dekelm.DeE_KontoWn
+	,dekelm.DeE_KontoMa
+	,dekelm.DeE_KwotaWal
+	,dekelm.DeE_Kwota
+	,dekelm.DeE_Dokument
+FROM [' + @dbname + '].[CDN].[Va##ag] AS NAG
+INNER JOIN [' + @dbname + '].[CDN].[Kate###ie] AS KAT ON NAG.VaN_Ka###= KAT.Kat_Ka##
+INNER JOIN [' + @dbname + '].[CDN].[Dekr###Nag] AS DEKNAG ON NAG.VaN_Iden#### = DEKNAG.DeN_Ident###
+INNER JOIN [' + @dbname + '].[CDN].[Dek###Elem] AS dekelm ON DEKNAG.DeN### = dekelm.DeE_###
+where  dekelm.DeE_KontoMa like ''202%'' '
+
+		EXEC sp_executesql @sqlQuery
+
+
+	FETCH NEXT
+	FROM db_cursor
+	INTO @dbname
+END
+
+CLOSE db_cursor
+
+DEALLOCATE db_cursor
+	--N przed apostrofami informuje SQL Server, że tekst jest w formacie nvarchar, co umożliwia obsługę znaków Unicode, takich jak litera "Ł"
+	-- sp_executesql to przechowywana procedura systemowa w systemie zarządzania bazą danych Microsoft SQL Server. Jest używana do wykonania dynamicznych zapytań SQL. Procedura ta jest przydatna, gdy chcemy tworzyć i wykonywać zapytania SQL w sposób dynamiczny, np. w oparciu o zmienne lub warunki.
