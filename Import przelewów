@@ -1,0 +1,188 @@
+DECLARE @SPL_PodmiotTyp SMALLINT;
+DECLARE @SPL_PodmiotID INT;
+DECLARE @SPL_OdbPodmiotTyp SMALLINT;
+DECLARE @SPL_OdbPodmiotID INT;
+DECLARE @SPL_FplId INT;
+DECLARE @SPL_BnaId INT;
+DECLARE @SPL_Rodzaj SMALLINT;
+DECLARE @SPL_Kwota DECIMAL;
+DECLARE @SPL_Procent DECIMAL;
+DECLARE @SPL_RachunekNr NVARCHAR(MAX);
+DECLARE @SPL_TS_Zal date;
+DECLARE @SPL_TS_Mod date;
+DECLARE @SPL_IBAN TINYINT;
+DECLARE @SPL_LiczbaPorz INT;
+DECLARE @SPL_Reszta TINYINT;
+DECLARE @SPL_PPK TINYINT;
+DECLARE @SPL_Opis NVARCHAR(MAX);
+DECLARE @SPL_OpeZalID INT;
+DECLARE @SPL_StaZalId INT;
+DECLARE @SPL_OpeModID INT;
+DECLARE @SPL_StaModId INT;
+DECLARE @SPL_OpeModKod VARCHAR(100);
+DECLARE @SPL_OpeModNazwisko NVARCHAR(MAX);
+DECLARE @SPL_OpeZalKod VARCHAR(100);
+DECLARE @SPL_OpeZalNazwisko NVARCHAR(MAX);
+DECLARE @SPL_ImportRowId VARCHAR(100);
+
+DECLARE cur CURSOR
+FOR
+SELECT SPL_PodmiotTyp
+	,SPL_PodmiotID
+	,SPL_OdbPodmiotTyp
+	,SPL_OdbPodmiotID
+	,SPL_FplId
+	,SPL_BnaId
+	,SPL_Rodzaj
+	,SPL_Kwota
+	,SPL_Procent
+	,SPL_RachunekNr
+	,SPL_TS_Zal
+	,SPL_TS_Mod
+	,SPL_IBAN
+	,SPL_LiczbaPorz
+	,SPL_Reszta
+	,SPL_PPK
+	,SPL_Opis
+	,SPL_OpeZalID
+	,SPL_StaZalId
+	,SPL_OpeModID
+	,SPL_StaModId
+	,SPL_OpeModKod
+	,SPL_OpeModNazwisko
+	,SPL_OpeZalKod
+	,SPL_OpeZalNazwisko
+	,SPL_ImportRowId
+FROM cdn.SchematPlatnosci;
+
+-- Otwarcie kursora
+OPEN cur;
+
+-- Początek pętli
+FETCH NEXT
+FROM cur
+INTO @SPL_PodmiotTyp
+	,@SPL_PodmiotID
+	,@SPL_OdbPodmiotTyp
+	,@SPL_OdbPodmiotID
+	,@SPL_FplId
+	,@SPL_BnaId
+	,@SPL_Rodzaj
+	,@SPL_Kwota
+	,@SPL_Procent
+	,@SPL_RachunekNr
+	,@SPL_TS_Zal
+	,@SPL_TS_Mod
+	,@SPL_IBAN
+	,@SPL_LiczbaPorz
+	,@SPL_Reszta
+	,@SPL_PPK
+	,@SPL_Opis
+	,@SPL_OpeZalID
+	,@SPL_StaZalId
+	,@SPL_OpeModID
+	,@SPL_StaModId
+	,@SPL_OpeModKod
+	,@SPL_OpeModNazwisko
+	,@SPL_OpeZalKod
+	,@SPL_OpeZalNazwisko
+	,@SPL_ImportRowId;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+	-- Wstawianie danych do tabela_docelowa
+	INSERT INTO cdn.SchematPlatnosci (
+		SPL_PodmiotTyp
+		,SPL_PodmiotID
+		,SPL_OdbPodmiotTyp
+		,SPL_OdbPodmiotID
+		,SPL_FplId
+		,SPL_BnaId
+		,SPL_Rodzaj
+		,SPL_Kwota
+		,SPL_Procent
+		,SPL_RachunekNr
+	    ,SPL_TS_Zal
+		,SPL_TS_Mod
+		,SPL_IBAN
+		,SPL_LiczbaPorz
+		,SPL_Reszta
+		,SPL_PPK
+		,SPL_Opis
+		,SPL_OpeZalID
+		,SPL_StaZalId
+		,SPL_OpeModID
+		,SPL_StaModId
+		,SPL_OpeModKod
+		,SPL_OpeModNazwisko
+		,SPL_OpeZalKod
+		,SPL_OpeZalNazwisko
+		,SPL_ImportRowId
+		)
+	VALUES (
+		@SPL_PodmiotTyp
+		,@SPL_PodmiotID
+		,@SPL_OdbPodmiotTyp
+		,@SPL_OdbPodmiotID
+		,@SPL_FplId
+		,@SPL_BnaId
+		,@SPL_Rodzaj
+		,@SPL_Kwota
+		,@SPL_Procent
+		,@SPL_RachunekNr
+		,@SPL_TS_Zal
+		,@SPL_TS_Mod
+		,@SPL_IBAN
+		,@SPL_LiczbaPorz
+		,@SPL_Reszta
+		,@SPL_PPK
+		,@SPL_Opis
+		,@SPL_OpeZalID
+		,@SPL_StaZalId
+		,@SPL_OpeModID
+		,@SPL_StaModId
+		,@SPL_OpeModKod
+		,@SPL_OpeModNazwisko
+		,@SPL_OpeZalKod
+		,@SPL_OpeZalNazwisko
+		,@SPL_ImportRowId
+		);
+
+	-- Pobranie następnego rekordu
+	FETCH NEXT
+	FROM cur
+	INTO @SPL_PodmiotTyp
+		,@SPL_PodmiotID
+		,@SPL_OdbPodmiotTyp
+		,@SPL_OdbPodmiotID
+		,@SPL_FplId
+		,@SPL_BnaId
+		,@SPL_Rodzaj
+		,@SPL_Kwota
+		,@SPL_Procent
+		,@SPL_RachunekNr
+		,@SPL_TS_Zal
+		,@SPL_TS_Mod
+		,@SPL_IBAN
+		,@SPL_LiczbaPorz
+		,@SPL_Reszta
+		,@SPL_PPK
+		,@SPL_Opis
+		,@SPL_OpeZalID
+		,@SPL_StaZalId
+		,@SPL_OpeModID
+		,@SPL_StaModId
+		,@SPL_OpeModKod
+		,@SPL_OpeModNazwisko
+		,@SPL_OpeZalKod
+		,@SPL_OpeZalNazwisko
+		,@SPL_ImportRowId;
+END;
+
+-- Zamknięcie kursora
+CLOSE cur;
+
+DEALLOCATE cur;
+SELECT COLUMN_NAME, DATA_TYPE
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'auuu';
