@@ -1,0 +1,22 @@
+USE 
+GO
+/****** Object:  UserDefinedFunction [dbo].[zwroc_konta_pracownikow]    Script Date: 14.01.2024 16:27:11 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER FUNCTION [dbo].[zwroc_konta_pracownikow] (@pesel NVARCHAR(11))
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT 
+        CASE 
+            WHEN LEN(@pesel) <> 11 THEN '1' -- do procedury błąd
+            WHEN ISNUMERIC(@pesel + 'e0') = 0 THEN '2' -- do procedury błąd
+            ELSE '3' -- poprawny moża wykonac 
+        END AS ValidationResult,
+  (PRE.PRE_Imie1+''+PRE.PRE_Nazwisko) AS DANE, SP.SPL_RachunekNr from cdn.SchematPlatnosci SP
+left join cdn.PracEtaty PRE on PRE_PreId = SPL_PodmiotID
+where SPL_PodmiotTyp = 3 AND SPL_FplId  = 3 AND PRE_PESEL = @PESEL
+);
