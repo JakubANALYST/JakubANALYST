@@ -15,7 +15,7 @@ RETURN
             WHEN LEN(@pesel) <> 11 THEN '1' -- do procedury błąd
             WHEN ISNUMERIC(@pesel + 'e0') = 0 THEN '2' -- do procedury błąd
             ELSE '3' -- poprawny moża wykonac 
-        END AS ValidationResult,
+        END AS sprawdzenie ,
   (PRE.PRE_Imie1+''+PRE.PRE_Nazwisko) AS DANE, SP.SPL_RachunekNr from cdn.SchematPlatnosci SP
 left join cdn.PracEtaty PRE on PRE_PreId = SPL_PodmiotID
 where SPL_PodmiotTyp = 3 AND SPL_FplId  = 3 AND PRE_PESEL = @PESEL
